@@ -37,7 +37,7 @@ class CreateItem extends Component {
 
     handleChange = (e) => {
         const { name, type, value } = e.target;
-        
+
         const val = type === 'number' ? parseFloat(value) : value
         this.setState({ [name]: val });
     }
@@ -65,8 +65,9 @@ class CreateItem extends Component {
         return (
             <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
                 {(createItem, { loading, error }) => (
-                    <Form 
-                        onSubmit={async e => {
+                    <Form
+                        data-test = "form"
+                        onSubmit  = {async e => {
                             e.preventDefault();
                             const res = await createItem();
                             Router.push({
@@ -74,58 +75,58 @@ class CreateItem extends Component {
                                 query   : { id: res.data.createItem.id }
                             });
                         }}
-                    >     
-                        <Error error={error} />               
+                    >
+                        <Error error={error} />
                         <fieldset disabled={loading} aria-busy={loading}>
                             <label htmlFor="file">
                                 Image
-                                <input 
+                                <input
                                     type        = "file"
                                     id          = "file"
                                     name        = "file"
                                     placeholder = "Upload an image"
-                                    required 
+                                    required
                                     onChange = {this.uploadFile}
                                 />
-                                {this.state.image && <img src={this.state.image} alt="Upload Preview" width="200"/>}
-                            </label> 
+                                {this.state.image && <img src={this.state.image} alt="Upload Preview" width="200" />}
+                            </label>
                             <label htmlFor="title">
                                 Title
-                                <input 
+                                <input
                                     type        = "text"
                                     id          = "title"
                                     name        = "title"
                                     placeholder = "Title"
-                                    required 
+                                    required
                                     value    = {this.state.title}
                                     onChange = {this.handleChange}
                                 />
-                            </label> 
+                            </label>
                             <label htmlFor="price">
                                 Price
-                                <input 
+                                <input
                                     type        = "number"
                                     id          = "price"
                                     name        = "price"
                                     placeholder = "Price"
-                                    required 
+                                    required
                                     value    = {this.state.price}
                                     onChange = {this.handleChange}
                                 />
-                            </label> 
+                            </label>
                             <label htmlFor="description">
                                 Description
-                                <textarea 
+                                <textarea
                                     id          = "description"
                                     name        = "description"
                                     placeholder = "Enter a description"
-                                    required 
+                                    required
                                     value    = {this.state.description}
                                     onChange = {this.handleChange}
                                 />
-                            </label> 
-                            <button type="submit">Submit</button>   
-                        </fieldset> 
+                            </label>
+                            <button type="submit">Submit</button>
+                        </fieldset>
                     </Form>
                 )}
             </Mutation>
